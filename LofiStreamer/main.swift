@@ -55,8 +55,29 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     // MARK: - Stream
 
     private func loadStream() {
-        let url = URL(string: "https://www.youtube.com/watch?v=jfKfPfyJRdk")!
-        webView.load(URLRequest(url: url))
+        let html = """
+        <!DOCTYPE html>
+        <html>
+        <head>
+        <meta charset="UTF-8">
+        <meta name="referrer" content="strict-origin-when-cross-origin">
+        <style>
+          * { margin: 0; padding: 0; box-sizing: border-box; }
+          html, body { width: 100%; height: 100%; overflow: hidden; background: #0f0f0f; }
+          iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: 0; }
+        </style>
+        </head>
+        <body>
+        <iframe
+          src="https://www.youtube-nocookie.com/embed/jfKfPfyJRdk?autoplay=1&controls=0&modestbranding=1&rel=0"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+          referrerpolicy="strict-origin-when-cross-origin"
+          allowfullscreen>
+        </iframe>
+        </body>
+        </html>
+        """
+        webView.loadHTMLString(html, baseURL: URL(string: "https://www.youtube-nocookie.com"))
     }
 }
 
